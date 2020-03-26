@@ -3,6 +3,7 @@ import Box from '@material-ui/core/Box';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Container from '@material-ui/core/Container';
 import { makeStyles } from '@material-ui/core/styles'
+import FileInput from '../components/FileInput';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -16,14 +17,14 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
-export default function OutputArea(props) {
+export default function InputArea(props) {
   const classes = useStyles();
-
   return (
     <React.Fragment>
       <CssBaseline />
-      <Container className={ classes.moiContainer } maxWidth="lg">
+      <Container className={ classes.moiContainer } maxWidth="sm">
         <Box my={ 4 }>
+          <FileInput updateFileName={ props.updateFileName }/>
         </Box>
       </Container>
     </React.Fragment>

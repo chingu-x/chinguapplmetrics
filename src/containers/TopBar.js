@@ -13,7 +13,7 @@ export default function TopBar() {
       <AppBar position="absolute">
         <Toolbar>
           <Typography variant="h6" color="inherit" noWrap>
-            MoiTweets
+            Chingu Application Metrics
           </Typography>
         </Toolbar>
       </AppBar>
