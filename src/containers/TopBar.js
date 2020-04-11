@@ -5,7 +5,6 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 
 export default function TopBar() {
-  // const classes = useStyles();
 
   return (
     <React.Fragment>

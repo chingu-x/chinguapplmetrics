@@ -5,7 +5,7 @@ import Copyright from './components/Copyright'
 import InputArea from './containers/InputArea'
 import OutputArea from './containers/OutputArea'
 import TopBar from './containers/TopBar'
-import createSourceJson from './util/createSourceJson'
+import createSourceJSON from './util/createSourceJSON'
 
 const App = () => {
   const [fileContents, setfileContents] = useState('')
@@ -14,15 +14,18 @@ const App = () => {
 
   const updateFileContents = async (fileContents) => {
     setfileContents(fileContents)
-    setSourceJSON()
   }
 
   useEffect(() => {
-    if (fileContents !== '') {
-      setSourceJSON(createSourceJson(fileContents))
-      setIsDataLoaded(true)
+    async function fetchData() {
+      if (fileContents !== '') {
+        setSourceJSON(await createSourceJSON(fileContents))
+        setIsDataLoaded(true)
+      }
     }
-  },[fileContents, setIsDataLoaded])
+    fetchData();
+
+  },[fileContents, setSourceJSON, setIsDataLoaded])
 
   return (
     <div className="App">

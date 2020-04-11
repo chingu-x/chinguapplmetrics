@@ -37,7 +37,7 @@ export default function FileInput(props) {
     const file = fileInput.current.files[0];
     const textType = /text.*/;
     
-    if (file.type.match(textType)) {
+    if (file !== undefined && file.type.match(textType)) {
       const reader = new FileReader();
       
       reader.onload = function(e) {

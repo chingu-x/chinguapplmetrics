@@ -1,7 +1,7 @@
 const csv = require('csvtojson')
 const conditions = require('./conditions')
 
-export default function createSourceJson(fileContents) {
+const createSourceJSON = async (fileContents) => {
 
   let primaryMetrics = []
   let secondaryMetrics = []
@@ -64,44 +64,30 @@ export default function createSourceJson(fileContents) {
     }
   }
 
-  const allMetrics = csv()
-  .fromString(fileContents)
-  .then((jsonObj)=>{
-    jsonObj.forEach((currentEntry) => {
-      let found = searchForSource(primaryMetrics, currentEntry.source)
-      if (found) {
-        updateMetric(primaryMetrics, currentEntry.source)
-      } else {
-        addMetric(primaryMetrics, currentEntry.source)
-      }
-      examineOtherSource(currentEntry.other_source)
-    })
-
-    console.log('primaryMetrics')
-    console.log('--------------')
-    console.log(primaryMetrics)
-    console.log('secondaryMetrics')
-    console.log('----------------')
-    console.log(secondaryMetrics)
-
-    let allMetrics = []
-
-    for (const metric of primaryMetrics) {
-      if (metric.source !== 'OTHER') {
-        allMetrics.push(metric)
-      }
+  // Convert the CSV into a JSON object
+  const jsonObj = await csv().fromString(fileContents)
+  jsonObj.forEach((currentEntry) => {
+    let found = searchForSource(primaryMetrics, currentEntry.source)
+    if (found) {
+      updateMetric(primaryMetrics, currentEntry.source)
+    } else {
+      addMetric(primaryMetrics, currentEntry.source)
     }
-
-    for (const metric of secondaryMetrics) {
-      allMetrics.push(metric)
-    }
-
-    console.log('allMetrics')
-    console.log('----------')
-    console.log(allMetrics)
-
-    return allMetrics
+    examineOtherSource(currentEntry.other_source)
   })
+  
+  // Combine the primary and secondary metrics into a single object array
+  let combinedMetrics = []
+  for (const metric of primaryMetrics) {
+    if (metric.source !== 'OTHER') {
+      combinedMetrics.push(metric)
+    }
+  }
+  for (const metric of secondaryMetrics) {
+    combinedMetrics.push(metric)
+  }
 
-  return allMetrics
+  return combinedMetrics
 }
+
+export default createSourceJSON
