@@ -1,6 +1,7 @@
 import React from 'react'
 import Button from '@material-ui/core/Button'
-import TextField from '@material-ui/core/TextField'
+import FormControl from '@material-ui/core/FormControl'
+import FormLabel from '@material-ui/core/FormLabel'
 import { makeStyles } from '@material-ui/core/styles'
 
 const useStyles = makeStyles(theme => ({
@@ -10,76 +11,58 @@ const useStyles = makeStyles(theme => ({
       width: 200,
     },
   },
+
   moiButton: {
+    marginTop: 10,
     marginRight: 10,
   },
-  moiTextField: {
+
+  moiLabel: {
     marginTop: 60,
   },
+
+  moiFormLabel: {
+    marginRight: 5,
+  }
+
 }))
 
 export default function FileInput(props) {
   const classes = useStyles()
-  const defaultFieldValue = 'Enter file name'
-  const [fileName, setFileName] = React.useState(defaultFieldValue)
-
-  // Process a request to cancel the entry of the Chingu Application csv file name
-  const handleClear = (event) => {
-    setFileName(defaultFieldValue)
-    if (props.updateFileName !== undefined) {
-      props.updateFileName('')
-    }
-  }
+  let fileInput = React.createRef();
   
   // Update the file name when the user clicks the 'Get Appls' button
   const handleGetAppls = (event) => {
-    props.updateFileName(fileName)
-  }
-  
-  // Clear the file name field when it comes into focus
-  const clickInFileName = (event) => {
-    setFileName('')
-  }
-
-  // Update the file name when the user types into it
-  const changeInFileName = (event) => {
-    setFileName(event.target.value)
-  }
-
-  // Intercept the press of the Enter key in the file name field
-  const keydownInFileName = (event) => {
-      // 'keypress' event misbehaves on mobile so we track 'Enter' key via 'keydown' event
-      if (event.key === 'Enter') {
-        event.preventDefault()
-        event.stopPropagation()
-        props.updateFileName(fileName)
+    event.preventDefault()
+    const file = fileInput.current.files[0];
+    const textType = /text.*/;
+    
+    if (file.type.match(textType)) {
+      const reader = new FileReader();
+      
+      reader.onload = function(e) {
+          const fileContents = reader.result;
+          props.updateFileContents(fileContents)
       }
+      
+      reader.readAsText(file);
+    } else {
+      console.log('File type is not supported')
+    }
   }
 
   return (
-    <form className={ classes.root } noValidate autoComplete="off">
-      <div className={ classes.moiTextField }>
-        <TextField
-          required
-          id="filled-required"
-          label="Required"
-          variant="filled"
-          value={ fileName }
-          onKeyDown={ keydownInFileName }
-          onClick={ clickInFileName }
-          onChange={ changeInFileName }
-        />
-      </div>
-      <div>
-        <Button className={ classes.moiButton } variant="contained" size="medium"
-          onClick={ handleClear }>
-          Clear
-        </Button>
-        <Button className={ classes.root } variant="contained" size="medium"color="primary"
-          onClick={ handleGetAppls }>
-          Get Appls
-        </Button>
-      </div>
-    </form>
+    <FormControl className={ classes.root } noValidate autoComplete="off">
+      <span className={ classes.moiLabel }>
+        <FormLabel className={ classes.moiFormLabel }>
+          Upload file:
+        </FormLabel>
+        <input type="file" ref={ fileInput } />
+      </span>
+      <Button className={ classes.moiButton } variant="contained" size="medium"color="primary"
+        onClick={ handleGetAppls }>
+        Get Sources
+      </Button>
+    </FormControl>
   );
 }

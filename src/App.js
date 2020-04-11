@@ -8,27 +8,21 @@ import TopBar from './containers/TopBar'
 import createSourceJson from './util/createSourceJson'
 
 const App = () => {
-  const [fileName, setfileName] = useState('')
+  const [fileContents, setfileContents] = useState('')
   const [sourceJSON, setSourceJSON] = useState()
   const [isDataLoaded, setIsDataLoaded] = useState(false)
 
-  const updateFileName = async (fileName) => {
-    setfileName(fileName)
+  const updateFileContents = async (fileContents) => {
+    setfileContents(fileContents)
     setSourceJSON()
-    const sourceMetrics = createSourceJson()
-    console.log(sourceMetrics)
-  }
-
-  function getAllAppls(fileName) {
-
   }
 
   useEffect(() => {
-    if (fileName !== '') {
-      setSourceJSON(getAllAppls(fileName))
+    if (fileContents !== '') {
+      setSourceJSON(createSourceJson(fileContents))
       setIsDataLoaded(true)
     }
-  },[fileName, setIsDataLoaded])
+  },[fileContents, setIsDataLoaded])
 
   return (
     <div className="App">
@@ -41,7 +35,7 @@ const App = () => {
       <TopBar />
 
       <main>
-        <InputArea updateFileName={ updateFileName } />
+        <InputArea updateFileContents={ updateFileContents } />
         { isDataLoaded
             ? (<OutputArea sourceMetrics={ sourceJSON } />)
             : (' ')

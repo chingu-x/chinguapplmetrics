@@ -24,7 +24,7 @@ export default function InputArea(props) {
       <CssBaseline />
       <Container className={ classes.moiContainer } maxWidth="sm">
         <Box my={ 4 }>
-          <FileInput updateFileName={ props.updateFileName }/>
+          <FileInput updateFileContents={ props.updateFileContents }/>
         </Box>
       </Container>
     </React.Fragment>

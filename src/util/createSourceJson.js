@@ -1,8 +1,7 @@
 const csv = require('csvtojson')
 const conditions = require('./conditions')
-const csvFilePath = '/users/jim/downloads/applications.csv'
 
-export default function createSourceJson() {
+export default function createSourceJson(fileContents) {
 
   let primaryMetrics = []
   let secondaryMetrics = []
@@ -66,7 +65,7 @@ export default function createSourceJson() {
   }
 
   const allMetrics = csv()
-  .fromFile(csvFilePath)
+  .fromString(fileContents)
   .then((jsonObj)=>{
     jsonObj.forEach((currentEntry) => {
       let found = searchForSource(primaryMetrics, currentEntry.source)
