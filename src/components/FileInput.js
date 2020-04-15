@@ -69,5 +69,5 @@ export default function FileInput(props) {
 }
 
 FileInput.propTypes = {
-  sourceMetrics: PropTypes.func.isRequired
+  updateFileContents: PropTypes.func.isRequired
 }

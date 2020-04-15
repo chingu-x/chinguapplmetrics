@@ -33,5 +33,5 @@ export default function InputArea(props) {
 }
 
 InputArea.propTypes = {
-  sourceMetrics: PropTypes.func.isRequired
+  updateFileContents: PropTypes.func.isRequired
 }
