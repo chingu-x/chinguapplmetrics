@@ -1,11 +1,11 @@
 import React from 'react'
-import PropTypes from 'prop-types'; 
+import PropTypes from 'prop-types'
 import Box from '@material-ui/core/Box'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import Container from '@material-ui/core/Container'
 import List from '@material-ui/core/List'
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
+import ListItem from '@material-ui/core/ListItem'
+import ListItemText from '@material-ui/core/ListItemText'
 import Typography from '@material-ui/core/Typography'
 import { makeStyles } from '@material-ui/core/styles'
 import { Bar } from 'react-chartjs-2'
@@ -26,7 +26,7 @@ const useStyles = makeStyles(theme => ({
 }))
 
 export default function OutputArea(props) {
-  const classes = useStyles();
+  const classes = useStyles()
 
   const sourceLabels = props.sourceMetrics.map(source => (source.source)).sort()
   const sourceCounts = props.sourceMetrics.map(source => (source.sourceCount))
@@ -81,9 +81,9 @@ export default function OutputArea(props) {
         </Box>
       </Container>
     </React.Fragment>
-  );
+  )
 }
 
 OutputArea.propTypes = {
   sourceMetrics: PropTypes.array.isRequired
-};
+}

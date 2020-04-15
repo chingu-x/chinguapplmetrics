@@ -1,7 +1,7 @@
-import React from 'react';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import Link from '@material-ui/core/Link';
-import Typography from '@material-ui/core/Typography';
+import React from 'react'
+import CssBaseline from '@material-ui/core/CssBaseline'
+import Link from '@material-ui/core/Link'
+import Typography from '@material-ui/core/Typography'
 
 export default function Copyright() {
   return (
@@ -16,5 +16,5 @@ export default function Copyright() {
         {'.'}
       </Typography>
     </React.Fragment>
-  );
+  )
 }

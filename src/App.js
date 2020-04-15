@@ -49,7 +49,7 @@ const App = () => {
         <Copyright />
       </footer>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App

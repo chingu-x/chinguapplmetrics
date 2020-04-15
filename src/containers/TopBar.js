@@ -1,8 +1,8 @@
-import React from 'react';
-import AppBar from '@material-ui/core/AppBar';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
+import React from 'react'
+import AppBar from '@material-ui/core/AppBar'
+import CssBaseline from '@material-ui/core/CssBaseline'
+import Toolbar from '@material-ui/core/Toolbar'
+import Typography from '@material-ui/core/Typography'
 
 export default function TopBar() {
 
@@ -17,5 +17,5 @@ export default function TopBar() {
         </Toolbar>
       </AppBar>
     </React.Fragment>
-  );
+  )
 }

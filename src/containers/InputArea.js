@@ -1,9 +1,10 @@
-import React from 'react';
-import Box from '@material-ui/core/Box';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import Container from '@material-ui/core/Container';
+import React from 'react'
+import PropTypes from 'prop-types'
+import Box from '@material-ui/core/Box'
+import CssBaseline from '@material-ui/core/CssBaseline'
+import Container from '@material-ui/core/Container'
 import { makeStyles } from '@material-ui/core/styles'
-import FileInput from '../components/FileInput';
+import FileInput from '../components/FileInput'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -18,7 +19,7 @@ const useStyles = makeStyles(theme => ({
 }))
 
 export default function InputArea(props) {
-  const classes = useStyles();
+  const classes = useStyles()
   return (
     <React.Fragment>
       <CssBaseline />
@@ -29,4 +30,8 @@ export default function InputArea(props) {
       </Container>
     </React.Fragment>
   );
+}
+
+InputArea.propTypes = {
+  sourceMetrics: PropTypes.func.isRequired
 }
