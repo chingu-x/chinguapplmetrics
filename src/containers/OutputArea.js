@@ -8,6 +8,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Typography from '@material-ui/core/Typography'
 import { makeStyles } from '@material-ui/core/styles'
+import { Bar } from 'react-chartjs-2'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -26,6 +27,22 @@ const useStyles = makeStyles(theme => ({
 
 export default function OutputArea(props) {
   const classes = useStyles();
+
+  const sourceLabels = props.sourceMetrics.map(source => (source.source)).sort()
+  const sourceCounts = props.sourceMetrics.map(source => (source.sourceCount))
+
+  const chartData = {
+    labels: sourceLabels,
+    datasets: [
+      {
+        label: 'Counts',
+        backgroundColor: 'rgba(75,192,192,1)',
+        borderColor: 'rgba(0,0,0,1)',
+        borderWidth: 2,
+        data: sourceCounts
+      }
+    ]
+  }
 
   return (
     <React.Fragment>
@@ -46,6 +63,21 @@ export default function OutputArea(props) {
               )
             }
           </List>
+
+          <Bar
+            data={ chartData }
+            options={{
+              title:{
+                display:true,
+                text:'How Members Found Us',
+                fontSize:20
+              },
+              legend:{
+                display:true,
+                position:'right'
+              }
+            }}
+          />
         </Box>
       </Container>
     </React.Fragment>

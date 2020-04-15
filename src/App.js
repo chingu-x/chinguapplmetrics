@@ -40,7 +40,7 @@ const App = () => {
       <main>
         <InputArea updateFileContents={ updateFileContents } />
         { isDataLoaded
-            ? (<OutputArea sourceMetrics={ sourceJSON } />)
+            ? (<OutputArea sourceMetrics={ sourceJSON } /> )
             : (' ')
         }
       </main>
