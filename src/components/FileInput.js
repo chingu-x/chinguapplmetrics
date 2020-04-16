@@ -1,9 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'; 
 import Button from '@material-ui/core/Button'
+//import Container from '@material-ui/core/Container'
 import FormControl from '@material-ui/core/FormControl'
 import FormLabel from '@material-ui/core/FormLabel'
 import { makeStyles } from '@material-ui/core/styles'
+import { Container } from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -13,13 +15,19 @@ const useStyles = makeStyles(theme => ({
     },
   },
 
-  moiButton: {
-    marginTop: 10,
-    marginRight: 10,
+  moiContainer: {
+    marginTop: 45,
+    textAlign: 'center',
   },
 
-  moiLabel: {
-    marginTop: 60,
+  moiButtonContainer: {
+    marginTop: 10,
+    textAlign: 'center',
+  },
+
+  moiButton: {
+    marginRight: 10,
+    width: '10rem',
   },
 
   moiFormLabel: {
@@ -53,17 +61,21 @@ export default function FileInput(props) {
   }
 
   return (
-    <FormControl className={ classes.root } noValidate autoComplete="off">
-      <span className={ classes.moiLabel }>
-        <FormLabel className={ classes.moiFormLabel }>
-          Upload file:
-        </FormLabel>
-        <input type="file" ref={ fileInput } />
-      </span>
-      <Button className={ classes.moiButton } variant="contained" size="medium"color="primary"
-        onClick={ handleGetAppls }>
-        Get Sources
-      </Button>
+    <FormControl noValidate autoComplete="off">
+      <Container className={ classes.moiContainer }>
+        <span>
+          <FormLabel className={ classes.moiFormLabel }>
+            Upload file:
+          </FormLabel>
+          <input type="file" ref={ fileInput } />
+        </span>
+      </Container>
+      <Container className={ classes.moiButtonContainer }>
+        <Button className={ classes.moiButton } variant="contained" size="medium"color="primary"
+          onClick={ handleGetAppls }>
+          Chart It!
+        </Button>
+      </Container>
     </FormControl>
   )
 }
