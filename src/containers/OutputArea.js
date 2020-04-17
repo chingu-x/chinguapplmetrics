@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import Container from '@material-ui/core/Container'
 import { makeStyles } from '@material-ui/core/styles'
-import { Bar } from 'react-chartjs-2'
+import { Bar } from '@nivo/bar'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -26,48 +26,38 @@ export default function OutputArea(props) {
   // Sort in decending sourceCount order
   const compare = (a, b) => {
     let comparisonResult = 0;
-    if (a.sourceCount < b.sourceCount) {
+    if (a.value < b.value) {
       comparisonResult = 1;
-    } else if (a.sourceCount > b.sourceCount) {
+    } else if (a.value > b.value) {
       comparisonResult = -1;
     }
     return comparisonResult;
   }
 
   const sortedSources = props.sourceMetrics.sort(compare)
-  const sourceLabels = sortedSources.map(source => (source.source))
-  const sourceCounts = sortedSources.map(source => (source.sourceCount))
+  const sourceKeys = sortedSources.map(source => (source.name))
 
-  const chartData = {
-    labels: sourceLabels,
-    datasets: [
-      {
-        label: 'Counts',
-        backgroundColor: 'rgba(255,116,0)',
-        borderColor: 'rgba(0,0,0,1)',
-        borderWidth: 2,
-        data: sourceCounts
-      }
-    ]
+  const commonProps = {
+      layout: 'horizontal',
+      colors: '#ff7400',
+      width: 1200,
+      height: 475,
+      margin: { top: 0, right: 40, bottom: 60, left: 180 },
+      data: sortedSources,
+      indexBy: 'name',
+      sourceKeys,
+      padding: 0.5,
+      labelTextColor: 'inherit:darker(1.6)',
+      labelSkipWidth: 16,
+      labelSkipHeight: 16,
   }
+  
 
   return (
     <React.Fragment>
       <CssBaseline />
       <Container className={ classes.moiContainer } maxWidth="lg">
-        <Bar
-          data={ chartData }
-          options={{
-            title:{
-              display:true,
-              text:'How Members Found Us',
-              fontSize:20
-            },
-            legend:{
-              display:false,
-            },
-          }}
-        />
+      <Bar {...commonProps} groupMode="grouped" />
       </Container>
     </React.Fragment>
   )

@@ -9,8 +9,8 @@ const createSourceJSON = async (fileContents) => {
   const addMetric = (metricsArray, source) => {
     if (source !== '' && source !== undefined) {
       metricsArray.push({
-        source: source,
-        sourceCount: 1,
+        name: source,
+        value: 1,
       })
     }
   }
@@ -18,8 +18,8 @@ const createSourceJSON = async (fileContents) => {
   const updateMetric = (metricsArray, source) => {
     if (source !== '' && source !== undefined) {
       for (const i in metricsArray) {
-        if (metricsArray[i].source === source) {
-          metricsArray[i].sourceCount = metricsArray[i].sourceCount + 1
+        if (metricsArray[i].name === source) {
+          metricsArray[i].value = metricsArray[i].value + 1
           break
         }
       }
@@ -30,7 +30,7 @@ const createSourceJSON = async (fileContents) => {
     let found = false
     if (source !== '' && source !== undefined) {
       for(const element of metricsArray) {
-        found = element.source === source
+        found = element.name === source
         if (found) break
       }
     }
@@ -79,7 +79,7 @@ const createSourceJSON = async (fileContents) => {
   // Combine the primary and secondary metrics into a single object array
   let combinedMetrics = []
   for (const metric of primaryMetrics) {
-    if (metric.source !== 'OTHER') {
+    if (metric.name !== 'OTHER') {
       combinedMetrics.push(metric)
     }
   }
