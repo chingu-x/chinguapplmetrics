@@ -4,6 +4,7 @@ import CssBaseline from '@material-ui/core/CssBaseline'
 import Container from '@material-ui/core/Container'
 import { makeStyles } from '@material-ui/core/styles'
 import { Bar } from '@nivo/bar'
+import { Pie } from '@nivo/pie'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -23,7 +24,7 @@ const useStyles = makeStyles(theme => ({
 export default function OutputArea(props) {
   const classes = useStyles()
 
-  // Sort in decending sourceCount order
+  // Sort in decending order
   const compare = (a, b) => {
     let comparisonResult = 0;
     if (a.value < b.value) {
@@ -33,11 +34,25 @@ export default function OutputArea(props) {
     }
     return comparisonResult;
   }
+  
+  // Setup the Prior Member chart
+  const priorMemberProps = {
+      width: 800,
+      height: 400,
+      margin: { top: 80, right: 120, bottom: 80, left: 120 },
+      data: props.priorMemberMetrics,
+      innerRadius: 0.6,
+      padAngle: 0.5,
+      cornerRadius: 5,
+      radialLabelsLinkColor: "inherit",
+      radialLabelsLinkStrokeWidth: 3,
+      radialLabelsTextColor: "inherit:darker(1.2)",
+  }
 
+  // Setup the Source bar chart
   const sortedSources = props.sourceMetrics.sort(compare)
   const sourceKeys = sortedSources.map(source => (source.name))
-
-  const commonProps = {
+  const sourceProps = {
       layout: 'horizontal',
       colors: '#ff7400',
       width: 1200,
@@ -51,18 +66,19 @@ export default function OutputArea(props) {
       labelSkipWidth: 16,
       labelSkipHeight: 16,
   }
-  
 
   return (
     <React.Fragment>
       <CssBaseline />
       <Container className={ classes.moiContainer } maxWidth="lg">
-      <Bar {...commonProps} groupMode="grouped" />
+      <Pie {...priorMemberProps} groupMode="grouped" />
+      <Bar {...sourceProps} groupMode="grouped" />
       </Container>
     </React.Fragment>
   )
 }
 
 OutputArea.propTypes = {
-  sourceMetrics: PropTypes.array.isRequired
+  sourceMetrics: PropTypes.array.isRequired,
+  priorMemberMetrics: PropTypes.array.isRequired,
 }

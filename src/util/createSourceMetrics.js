@@ -1,7 +1,7 @@
 const csv = require('csvtojson')
-const conditions = require('./conditions')
+const conditions = require('./sourceConditions')
 
-const createSourceJSON = async (fileContents) => {
+const createSourceMetrics = async (fileContents) => {
 
   let primaryMetrics = []
   let secondaryMetrics = []
@@ -90,4 +90,4 @@ const createSourceJSON = async (fileContents) => {
   return combinedMetrics
 }
 
-export default createSourceJSON
+export default createSourceMetrics
