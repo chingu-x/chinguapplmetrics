@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import Container from '@material-ui/core/Container'
+import Typography from '@material-ui/core/Typography'
 import { makeStyles } from '@material-ui/core/styles'
 import { Bar } from '@nivo/bar'
 import { Pie } from '@nivo/pie'
@@ -49,6 +50,23 @@ export default function OutputArea(props) {
       radialLabelsTextColor: "inherit:darker(1.2)",
   }
 
+    // Setup the Paid Member bar chart
+    const paidMemberKeys = props.paidMemberMetrics.map(source => (source.name))
+    const paidMemberProps = {
+        layout: 'vertical',
+        colors: '#ff7400',
+        width: 1200,
+        height: 475,
+        margin: { top: 0, right: 40, bottom: 60, left: 180 },
+        data: props.paidMemberMetrics,
+        indexBy: 'name',
+        paidMemberKeys,
+        padding: 0.5,
+        labelTextColor: 'inherit:darker(1.6)',
+        labelSkipWidth: 16,
+        labelSkipHeight: 16,
+    }
+
   // Setup the Source bar chart
   const sortedSources = props.sourceMetrics.sort(compare)
   const sourceKeys = sortedSources.map(source => (source.name))
@@ -71,8 +89,20 @@ export default function OutputArea(props) {
     <React.Fragment>
       <CssBaseline />
       <Container className={ classes.moiContainer } maxWidth="lg">
-      <Pie {...priorMemberProps} groupMode="grouped" />
-      <Bar {...sourceProps} groupMode="grouped" />
+        <Typography variant="h6" color="inherit" noWrap>
+          New/Existing Members
+        </Typography>
+        <Pie {...priorMemberProps} groupMode="grouped" />
+
+        <Typography variant="h6" color="inherit" noWrap>
+          Paid Plan Signups by Month
+        </Typography>
+        <Bar {...paidMemberProps} groupMode="grouped" />
+
+        <Typography variant="h6" color="inherit" noWrap>
+          How Members Found Us
+        </Typography>
+        <Bar {...sourceProps} groupMode="grouped" />
       </Container>
     </React.Fragment>
   )
@@ -81,4 +111,5 @@ export default function OutputArea(props) {
 OutputArea.propTypes = {
   sourceMetrics: PropTypes.array.isRequired,
   priorMemberMetrics: PropTypes.array.isRequired,
+  paidMemberMetrics: PropTypes.array.isRequired,
 }
