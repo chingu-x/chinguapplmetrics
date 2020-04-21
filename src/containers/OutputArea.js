@@ -29,8 +29,8 @@ export default function OutputArea(props) {
     <React.Fragment>
       <CssBaseline />
       <Container className={ classes.moiContainer } maxWidth="lg">
-        <PriorMembers priorMemberMetrics={ props.priorMemberMetrics } />
-        <MembersByMonth paidMemberMetrics={ props.paidMemberMetrics } />
+        <PriorMembers fileContents={ props.fileContents } />
+        <MembersByMonth fileContents={ props.fileContents } />
         <MembersBySource sourceMetrics={ props.sourceMetrics } />
       </Container>
     </React.Fragment>
@@ -39,6 +39,5 @@ export default function OutputArea(props) {
 
 OutputArea.propTypes = {
   sourceMetrics: PropTypes.array.isRequired,
-  priorMemberMetrics: PropTypes.array.isRequired,
-  paidMemberMetrics: PropTypes.array.isRequired,
+  fileContents: PropTypes.string.isRequired,
 }

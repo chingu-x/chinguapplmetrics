@@ -1,19 +1,34 @@
-import React from 'react'
+import React, {useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import Typography from '@material-ui/core/Typography'
 import { Bar } from '@nivo/bar'
+import createPaidMemberMetrics from '../util/createPaidMemberMetrics'
 
 export default function MembersByMonth(props) {
+  const [fileContents] = useState(props.fileContents)
+  const [paidMemberJSON, setPaidMemberJSON] = useState([])
+  const [isDataLoaded, setIsDataLoaded] = useState(false)
+
+  useEffect(() => {
+    async function fetchData() {
+      if (fileContents !== '') {
+        setPaidMemberJSON(await createPaidMemberMetrics(fileContents))
+        setIsDataLoaded(true)
+      }
+    }
+    fetchData();
+
+  },[fileContents, setPaidMemberJSON, setIsDataLoaded])
 
   // Setup the Paid Member bar chart
-  const paidMemberKeys = props.paidMemberMetrics.map(source => (source.name))
+  const paidMemberKeys = paidMemberJSON.map(source => (source.name))
   const paidMemberProps = {
       layout: 'vertical',
       colors: '#ff7400',
       width: 1200,
       height: 475,
       margin: { top: 0, right: 40, bottom: 60, left: 180 },
-      data: props.paidMemberMetrics,
+      data: paidMemberJSON,
       indexBy: 'name',
       paidMemberKeys,
       padding: 0.5,
@@ -27,11 +42,14 @@ export default function MembersByMonth(props) {
       <Typography variant="h6" color="inherit" noWrap>
         Paid Plan Signups by Month
       </Typography>
-      <Bar {...paidMemberProps} groupMode="grouped" />
+      { isDataLoaded
+        ? (<Bar {...paidMemberProps} groupMode="grouped" />)
+        : (' ')
+      }
     </React.Fragment>
   )
 }
 
 MembersByMonth.propTypes = {
-  paidMemberMetrics: PropTypes.array.isRequired,
+  fileContents: PropTypes.string.isRequired,
 }
