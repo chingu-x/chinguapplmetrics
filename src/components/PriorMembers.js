@@ -16,8 +16,7 @@ export default function PriorMembers(props) {
         setIsDataLoaded(true)
       }
     }
-    fetchData();
-
+    fetchData()
   },[fileContents, setPriorMemberJSON, setIsDataLoaded])
   
   // Setup the Prior Member chart
