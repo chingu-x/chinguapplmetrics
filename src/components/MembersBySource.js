@@ -1,9 +1,23 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import Typography from '@material-ui/core/Typography'
 import { Bar } from '@nivo/bar'
+import createSourceMetrics from '../util/createSourceMetrics'
 
 export default function MembersBySource(props) {
+  const [fileContents] = useState(props.fileContents)
+  const [sourceJSON, setSourceJSON] = useState()
+  const [isDataLoaded, setIsDataLoaded] = useState(false)
+
+  useEffect(() => {
+    async function fetchData() {
+      if (fileContents !== '') {
+        setSourceJSON(await createSourceMetrics(fileContents))
+        setIsDataLoaded(true)
+      }
+    }
+    fetchData()
+  },[fileContents, setSourceJSON, setIsDataLoaded])  
 
   // Sort in decending order
   const compare = (a, b) => {
@@ -17,9 +31,13 @@ export default function MembersBySource(props) {
   }
 
   // Setup the Source bar chart
-  const sortedSources = props.sourceMetrics.sort(compare)
-  const sourceKeys = sortedSources.map(source => (source.name))
-  const sourceProps = {
+  let sortedSources
+  let sourceKeys
+  let sourceProps
+  if (isDataLoaded) {
+    sortedSources = sourceJSON.sort(compare)
+    sourceKeys = sortedSources.map(source => (source.name))
+    sourceProps = {
       layout: 'horizontal',
       colors: '#ff7400',
       width: 1200,
@@ -32,6 +50,7 @@ export default function MembersBySource(props) {
       labelTextColor: 'inherit:darker(1.6)',
       labelSkipWidth: 16,
       labelSkipHeight: 16,
+    }
   }
 
   return (
@@ -39,11 +58,14 @@ export default function MembersBySource(props) {
       <Typography variant="h6" color="inherit" noWrap>
         How Members Found Us
       </Typography>
-      <Bar {...sourceProps} groupMode="grouped" />
+      { isDataLoaded
+        ? (<Bar {...sourceProps} groupMode="grouped" /> )
+        : (' ')
+      }
     </React.Fragment>
   )
 }
 
 MembersBySource.propTypes = {
-  sourceMetrics: PropTypes.array.isRequired,
+  fileContents: PropTypes.string.isRequired,
 }

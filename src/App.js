@@ -5,11 +5,9 @@ import Copyright from './components/Copyright'
 import InputArea from './containers/InputArea'
 import OutputArea from './containers/OutputArea'
 import TopBar from './containers/TopBar'
-import createSourceMetrics from './util/createSourceMetrics'
 
 const App = () => {
   const [fileContents, setfileContents] = useState('')
-  const [sourceJSON, setSourceJSON] = useState()
   const [isDataLoaded, setIsDataLoaded] = useState(false)
 
   const updateFileContents = async (fileContents) => {
@@ -19,13 +17,12 @@ const App = () => {
   useEffect(() => {
     async function fetchData() {
       if (fileContents !== '') {
-        setSourceJSON(await createSourceMetrics(fileContents))
         setIsDataLoaded(true)
       }
     }
     fetchData();
 
-  },[fileContents, setSourceJSON, setIsDataLoaded])
+  },[fileContents, setIsDataLoaded])
 
   return (
     <div className="App">
@@ -40,7 +37,7 @@ const App = () => {
       <main>
         <InputArea updateFileContents={ updateFileContents } />
         { isDataLoaded
-            ? (<OutputArea sourceMetrics={ sourceJSON } fileContents={ fileContents } /> )
+            ? (<OutputArea fileContents={ fileContents } /> )
             : (' ')
         }
       </main>

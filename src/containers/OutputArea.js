@@ -6,6 +6,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import PriorMembers from '../components/PriorMembers'
 import MembersByMonth from '../components/MembersByMonth'
 import MembersBySource from '../components/MembersBySource'
+import SourceByTime from '../components/SourceByTime'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -31,13 +32,13 @@ export default function OutputArea(props) {
       <Container className={ classes.moiContainer } maxWidth="lg">
         <PriorMembers fileContents={ props.fileContents } />
         <MembersByMonth fileContents={ props.fileContents } />
-        <MembersBySource sourceMetrics={ props.sourceMetrics } />
+        <MembersBySource fileContents={ props.fileContents } />
+        <SourceByTime fileContents={ props.fileContents } />
       </Container>
     </React.Fragment>
   )
 }
 
 OutputArea.propTypes = {
-  sourceMetrics: PropTypes.array.isRequired,
   fileContents: PropTypes.string.isRequired,
 }
