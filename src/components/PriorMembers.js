@@ -25,6 +25,7 @@ export default function PriorMembers(props) {
       height: 400,
       margin: { top: 80, right: 120, bottom: 80, left: 120 },
       data: priorMemberJSON,
+      colors: {"scheme": "category10"},
       innerRadius: 0.6,
       padAngle: 0.5,
       cornerRadius: 5,
