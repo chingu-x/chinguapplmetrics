@@ -15,26 +15,18 @@ const createSourceMetrics = async (fileContents) => {
     }
   }
 
-  const updateMetric = (metricsArray, source) => {
+  const updateMetric = (metricsArray, memberIndex, source) => {
     if (source !== '' && source !== undefined) {
-      for (const i in metricsArray) {
-        if (metricsArray[i].name === source) {
-          metricsArray[i].value = metricsArray[i].value + 1
-          break
-        }
-      }
+      metricsArray[memberIndex].value = metricsArray[memberIndex].value + 1
     }
   }
 
   const searchForSource = (metricsArray, source) => {
-    let found = false
+    let index = -1
     if (source !== '' && source !== undefined) {
-      for(const element of metricsArray) {
-        found = element.name === source
-        if (found) break
-      }
+      index = metricsArray.findIndex(element => (element.name === source))
     }
-    return found
+    return index
   }
 
   const categorizeOther = (otherSource) => {
@@ -55,9 +47,9 @@ const createSourceMetrics = async (fileContents) => {
     if (otherSource === '') return
     const source = categorizeOther(otherSource)
     if (source !== false) {
-      let found = searchForSource(secondaryMetrics, source)
-      if (found) {
-        updateMetric(secondaryMetrics, source)
+      const memberIndex = searchForSource(secondaryMetrics, source)
+      if (memberIndex > -1) {
+        updateMetric(secondaryMetrics, memberIndex, source)
       } else {
         addMetric(secondaryMetrics, source)
       }
@@ -67,9 +59,9 @@ const createSourceMetrics = async (fileContents) => {
   // Convert the CSV into a JSON object
   const jsonObj = await csv().fromString(fileContents)
   jsonObj.forEach((currentEntry) => {
-    let found = searchForSource(primaryMetrics, currentEntry.source)
-    if (found) {
-      updateMetric(primaryMetrics, currentEntry.source)
+    const memberIndex = searchForSource(primaryMetrics, currentEntry.source)
+    if (memberIndex > -1) {
+      updateMetric(primaryMetrics, memberIndex, currentEntry.source)
     } else {
       addMetric(primaryMetrics, currentEntry.source)
     }
@@ -78,14 +70,9 @@ const createSourceMetrics = async (fileContents) => {
   
   // Combine the primary and secondary metrics into a single object array
   let combinedMetrics = []
-  for (const metric of primaryMetrics) {
-    if (metric.name !== 'OTHER') {
-      combinedMetrics.push(metric)
-    }
-  }
-  for (const metric of secondaryMetrics) {
-    combinedMetrics.push(metric)
-  }
+  primaryMetrics.filter(element => (element.name !== 'OTHER'))
+    .forEach(element => combinedMetrics.push(element))
+  secondaryMetrics.forEach(element => combinedMetrics.push(element))
 
   return combinedMetrics
 }

@@ -15,26 +15,18 @@ const createPriorMemberMetrics = async (fileContents) => {
     }
   }
 
-  const updateMetric = (metricsArray, is_previous_member) => {
+  const updateMetric = (metricsArray, memberIndex, is_previous_member) => {
     if (is_previous_member !== '' && is_previous_member !== undefined) {
-      for (const i in metricsArray) {
-        if (metricsArray[i].id === memberType(is_previous_member)) {
-          metricsArray[i].value = metricsArray[i].value + 1
-          break
-        }
-      }
+      metricsArray[memberIndex].value = metricsArray[memberIndex].value + 1
     }
   }
 
   const searchForMember = (metricsArray, is_previous_member) => {
-    let found = false
+    let index = -1
     if (is_previous_member !== '' && is_previous_member !== undefined) {
-      for(const element of metricsArray) {
-        found = element.id === memberType(is_previous_member)
-        if (found) break
-      }
+      index = metricsArray.findIndex(element => (element.id === memberType(is_previous_member)))
     }
-    return found
+    return index
   }
 
   // Convert the CSV into a JSON object
@@ -42,9 +34,9 @@ const createPriorMemberMetrics = async (fileContents) => {
 
   const jsonObj = await csv().fromString(fileContents)
   jsonObj.forEach((currentEntry) => {
-    let found = searchForMember(memberMetrics, currentEntry.is_previous_member)
-    if (found) {
-      updateMetric(memberMetrics, currentEntry.is_previous_member)
+    const memberIndex = searchForMember(memberMetrics, currentEntry.is_previous_member)
+    if (memberIndex > -1) {
+      updateMetric(memberMetrics, memberIndex, currentEntry.is_previous_member)
     } else {
       addMetric(memberMetrics, currentEntry.is_previous_member)
     }
