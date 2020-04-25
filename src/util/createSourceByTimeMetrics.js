@@ -6,13 +6,16 @@ const createSourceByTimeMetrics = async (fileContents) => {
   let primaryMetrics = []
   let secondaryMetrics = []
 
+  const getCreatedMonthYear = (created_at) => 
+    (created_at.substring(5,7).concat('/',created_at.substring(0,4)))
+
   const addMetric = (metricsArray, source, created_at) => {
     if (source !== '' && source !== undefined) {
-      const creationMonth = created_at.substring(5,7)
+      const creationMonthYear = getCreatedMonthYear(created_at)
       metricsArray.push({
         id: source,
         data: [{
-          x: creationMonth,
+          x: creationMonthYear,
           y: 1,
         }],
       })
@@ -25,7 +28,7 @@ const createSourceByTimeMetrics = async (fileContents) => {
         if (metricsArray[i].id === source) {
           let dataFound = false
           for (const j in metricsArray[i].data) {
-            if (metricsArray[i].data[j].x === created_at.substring(5,7)) {
+            if (metricsArray[i].data[j].x === getCreatedMonthYear(created_at)) {
               metricsArray[i].data[j].y = metricsArray[i].data[j].y + 1
               dataFound = true
               break
@@ -33,7 +36,7 @@ const createSourceByTimeMetrics = async (fileContents) => {
           }
           if (!dataFound) {
             metricsArray[i].data.push({
-              x: created_at.substring(5,7),
+              x: getCreatedMonthYear(created_at),
               y: 1,
             })
           }
