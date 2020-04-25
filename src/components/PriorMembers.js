@@ -31,7 +31,7 @@ export default function PriorMembers(props) {
       cornerRadius: 5,
       radialLabelsLinkColor: "inherit",
       radialLabelsLinkStrokeWidth: 3,
-      radialLabelsTextColor: "inherit:darker(1.2)",
+      radialLabelsTextColor: "inherit:darker",
   }
 
   return (

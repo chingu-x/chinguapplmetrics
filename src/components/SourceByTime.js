@@ -29,10 +29,20 @@ export default function SourceByTime(props) {
     colors: {"scheme": "category10"},
     width: 1200,
     height: 475,
-    margin: { top: 0, right: 40, bottom: 60, left: 180 },
+    margin: { top: 0, right: 190, bottom: 60, left: 60 },
     data: sourceJSON,
     indexBy: 'name',
     sourceKeys,
+    useMesh: true,
+    legends: [
+      {
+        anchor: 'bottom-right',
+        direction: 'column',
+        itemWidth: 120,
+        itemHeight: 20,
+        translateX: 130,
+      }
+    ]
   }
 
   return (

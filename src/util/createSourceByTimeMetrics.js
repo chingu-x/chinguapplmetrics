@@ -8,7 +8,7 @@ const createSourceByTimeMetrics = async (fileContents) => {
 
   const addMetric = (metricsArray, source, created_at) => {
     if (source !== '' && source !== undefined) {
-      const creationMonth = created_at.substring(0,2)
+      const creationMonth = created_at.substring(5,7)
       metricsArray.push({
         id: source,
         data: [{
@@ -24,26 +24,29 @@ const createSourceByTimeMetrics = async (fileContents) => {
       for (const i in metricsArray) {
         if (metricsArray[i].id === source) {
           let dataFound = false
-          for(const j in metricsArray[i].data) {
-            if (metricsArray[j].data[j].x === created_at.substring(0,2)) {
-              metricsArray[i].idata[j].y = metricsArray[i].data[j].y + 1
+          for (const j in metricsArray[i].data) {
+            if (metricsArray[i].data[j].x === created_at.substring(5,7)) {
+              metricsArray[i].data[j].y = metricsArray[i].data[j].y + 1
               dataFound = true
               break
             }
           }
-          if (dataFound) {
-            break
+          if (!dataFound) {
+            metricsArray[i].data.push({
+              x: created_at.substring(5,7),
+              y: 1,
+            })
           }
         }
       }
     }
   }
 
-  const searchForSource = (metricsArray, source, created_at) => {
+  const searchForSource = (metricsArray, source) => {
     let found = false
     if (source !== '' && source !== undefined) {
-      for(const element of metricsArray) {
-        found = element.name === source
+      for (const element of metricsArray) {
+        found = element.id === source
         if (found) break
       }
     }
@@ -80,7 +83,7 @@ const createSourceByTimeMetrics = async (fileContents) => {
   // Convert the CSV into a JSON object
   const jsonObj = await csv().fromString(fileContents)
   jsonObj.forEach((currentEntry) => {
-    let found = searchForSource(primaryMetrics, currentEntry.source, currentEntry.created_at)
+    let found = searchForSource(primaryMetrics, currentEntry.source)
     if (found) {
       updateMetric(primaryMetrics, currentEntry.source, currentEntry.created_at)
     } else {
@@ -100,7 +103,6 @@ const createSourceByTimeMetrics = async (fileContents) => {
     combinedMetrics.push(metric)
   }
 
-  console.log(combinedMetrics)
   return combinedMetrics
 }
 
