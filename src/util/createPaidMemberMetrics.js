@@ -13,26 +13,18 @@ const createPaidMemberMetrics = async (fileContents) => {
     }
   }
 
-  const updateMetric = (metricsArray, signupMonth) => {
+  const updateMetric = (metricsArray, memberIndex, signupMonth) => {
     if (signupMonth !== '' && signupMonth !== undefined) {
-      for (const i in metricsArray) {
-        if (metricsArray[i].name === signupMonth) {
-          metricsArray[i].value = metricsArray[i].value + 1
-          break
-        }
-      }
+      metricsArray[memberIndex].value = metricsArray[memberIndex].value + 1
     }
   }
 
   const searchForMember = (metricsArray, signupMonth) => {
-    let found = false
+    let index = -1
     if (signupMonth !== '' && signupMonth !== undefined) {
-      for(const element of metricsArray) {
-        found = element.name === signupMonth
-        if (found) break
-      }
+      index = metricsArray.findIndex(element => (element.name === signupMonth))
     }
-    return found
+    return index
   }
 
   // Convert the CSV into a JSON object
@@ -40,9 +32,9 @@ const createPaidMemberMetrics = async (fileContents) => {
 
   const jsonObj = await (await csv().fromString(fileContents)).filter(member => member.payment_status === 'PAID')
   jsonObj.forEach((member) => {
-    let found = searchForMember(memberMetrics, getSignupMonth(member.created_at))
-    if (found) {
-      updateMetric(memberMetrics, getSignupMonth(member.created_at))
+    const memberIndex = searchForMember(memberMetrics, getSignupMonth(member.created_at))
+    if (memberIndex > -1) {
+      updateMetric(memberMetrics, memberIndex, getSignupMonth(member.created_at))
     } else {
       addMetric(memberMetrics, getSignupMonth(member.created_at))
     }
