@@ -5,6 +5,8 @@ import Container from '@material-ui/core/Container'
 import { makeStyles } from '@material-ui/core/styles'
 import PriorMembers from '../components/PriorMembers'
 import MembersByMonth from '../components/MembersByMonth'
+import MembersByRole from '../components/MembersByRole'
+import MembersByTier from '../components/MembersByTier'
 import MembersBySource from '../components/MembersBySource'
 import SourceByTime from '../components/SourceByTime'
 
@@ -32,6 +34,8 @@ export default function OutputArea(props) {
       <Container className={ classes.moiContainer } maxWidth="lg">
         <PriorMembers fileContents={ props.fileContents } />
         <MembersByMonth fileContents={ props.fileContents } />
+        <MembersByRole fileContents={ props.fileContents } />
+        <MembersByTier fileContents={ props.fileContents } />
         <MembersBySource fileContents={ props.fileContents } />
         <SourceByTime fileContents={ props.fileContents } />
       </Container>
