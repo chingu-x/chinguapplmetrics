@@ -2,9 +2,9 @@ import React, {useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import Typography from '@material-ui/core/Typography'
 import { Bar } from '@nivo/bar'
-import createPaidMemberMetrics from '../util/createPaidMemberMetrics'
+import createPaidMemberByMonthMetrics from '../util/createPaidMemberByMonthMetrics'
 
-export default function MembersByMonth(props) {
+export default function PaidMembersByMonth(props) {
   const [fileContents] = useState(props.fileContents)
   const [paidMemberJSON, setPaidMemberJSON] = useState([])
   const [isDataLoaded, setIsDataLoaded] = useState(false)
@@ -12,7 +12,7 @@ export default function MembersByMonth(props) {
   useEffect(() => {
     async function fetchData() {
       if (fileContents !== '') {
-        setPaidMemberJSON(await createPaidMemberMetrics(fileContents))
+        setPaidMemberJSON(await createPaidMemberByMonthMetrics(fileContents))
         setIsDataLoaded(true)
       }
     }
@@ -40,7 +40,7 @@ export default function MembersByMonth(props) {
   return (
     <React.Fragment>
       <Typography variant="h6" color="inherit" noWrap>
-        Paid Plan Signups by Month
+        Paid Member Signups by Month
       </Typography>
       { isDataLoaded
         ? (<Bar {...paidMemberProps} groupMode="grouped" />)
@@ -50,6 +50,6 @@ export default function MembersByMonth(props) {
   )
 }
 
-MembersByMonth.propTypes = {
+PaidMembersByMonth.propTypes = {
   fileContents: PropTypes.string.isRequired,
 }

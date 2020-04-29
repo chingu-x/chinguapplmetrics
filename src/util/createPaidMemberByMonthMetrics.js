@@ -1,6 +1,6 @@
 const csv = require('csvtojson')
 
-const createPaidMemberMetrics = async (fileContents) => {
+const createPaidMemberByMonthMetrics = async (fileContents) => {
 
   const getSignupMonth = (created_at) => (created_at.substring(5, 7).concat('/',created_at.substring(0,4)))
 
@@ -43,4 +43,4 @@ const createPaidMemberMetrics = async (fileContents) => {
   return memberMetrics
 }
 
-export default createPaidMemberMetrics
+export default createPaidMemberByMonthMetrics

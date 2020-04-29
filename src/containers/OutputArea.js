@@ -4,7 +4,8 @@ import CssBaseline from '@material-ui/core/CssBaseline'
 import Container from '@material-ui/core/Container'
 import { makeStyles } from '@material-ui/core/styles'
 import PriorMembers from '../components/PriorMembers'
-import MembersByMonth from '../components/MembersByMonth'
+import PaidMembersByMonth from '../components/PaidMembersByMonth'
+import PaidMembersByDay from '../components/PaidMembersByDay'
 import MembersByRole from '../components/MembersByRole'
 import MembersByTier from '../components/MembersByTier'
 import MembersBySource from '../components/MembersBySource'
@@ -33,7 +34,8 @@ export default function OutputArea(props) {
       <CssBaseline />
       <Container className={ classes.moiContainer } maxWidth="lg">
         <PriorMembers fileContents={ props.fileContents } />
-        <MembersByMonth fileContents={ props.fileContents } />
+        <PaidMembersByMonth fileContents={ props.fileContents } />
+        <PaidMembersByDay fileContents={ props.fileContents } />
         <MembersByRole fileContents={ props.fileContents } />
         <MembersByTier fileContents={ props.fileContents } />
         <MembersBySource fileContents={ props.fileContents } />
