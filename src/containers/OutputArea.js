@@ -10,6 +10,7 @@ import MembersByRole from '../components/MembersByRole'
 import MembersByTier from '../components/MembersByTier'
 import MembersBySource from '../components/MembersBySource'
 import SourceByTime from '../components/SourceByTime'
+import CountryByMonth from '../components/CountryByMonth'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -40,6 +41,7 @@ export default function OutputArea(props) {
         <MembersByTier fileContents={ props.fileContents } />
         <MembersBySource fileContents={ props.fileContents } />
         <SourceByTime fileContents={ props.fileContents } />
+        <CountryByMonth fileContents={ props.fileContents } />
       </Container>
     </React.Fragment>
   )
